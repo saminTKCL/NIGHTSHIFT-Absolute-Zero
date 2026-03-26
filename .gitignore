@@ -1,0 +1,16 @@
+# Godot 4 specific ignores
+.godot/
+*.translation
+
+# Export builds (only keep export/web/ for Vercel)
+# export/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# IDE
+.vscode/
+*.swp
+*.swo

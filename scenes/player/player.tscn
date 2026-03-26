@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3 uid="uid://player001"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_player"]
+[ext_resource type="Shader" path="res://shaders/silhouette.gdshader" id="2_silhouette"]
+[ext_resource type="Script" path="res://scripts/fx/screen_shake.gd" id="3_shake"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_001"]
+radius = 0.3
+height = 1.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_001"]
+shader = ExtResource("2_silhouette")
+shader_parameter/silhouette_color = Color(0.03, 0.03, 0.05, 1)
+shader_parameter/rim_color = Color(0.15, 0.15, 0.2, 1)
+shader_parameter/rim_power = 3.0
+shader_parameter/rim_intensity = 0.6
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_001"]
+radius = 0.3
+height = 1.4
+material = SubResource("ShaderMaterial_001")
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_player")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_001")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_001")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="InteractRay" type="RayCast3D" parent="."]
+target_position = Vector3(1.2, 0, 0)
+collision_mask = 4
+enabled = true
+
+[node name="WallRayLeft" type="RayCast3D" parent="."]
+target_position = Vector3(-0.5, 0, 0)
+collision_mask = 1
+enabled = true
+
+[node name="WallRayRight" type="RayCast3D" parent="."]
+target_position = Vector3(0.5, 0, 0)
+collision_mask = 1
+enabled = true
+
+[node name="ScreenShake" type="Node" parent="."]
+script = ExtResource("3_shake")

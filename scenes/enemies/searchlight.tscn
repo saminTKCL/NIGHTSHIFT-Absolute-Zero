@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://searchlight001"]
+
+[ext_resource type="Script" path="res://scenes/enemies/searchlight.gd" id="1_searchlight"]
+
+[node name="Searchlight" type="Node3D"]
+script = ExtResource("1_searchlight")
+
+[node name="SpotLight" type="SpotLight3D" parent="."]
+light_color = Color(1, 0.95, 0.8, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 15.0
+spot_angle = 25.0
+
+[node name="DetectionArea" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 2

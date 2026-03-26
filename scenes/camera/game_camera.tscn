@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://camera001"]
+
+[ext_resource type="Script" path="res://scenes/camera/game_camera.gd" id="1_camera"]
+
+[node name="GameCamera" type="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12)
+fov = 50.0
+near = 0.05
+far = 100.0
+script = ExtResource("1_camera")
+default_zoom_distance = 12.0
+follow_speed = 4.0
+look_ahead_distance = 2.0
+vertical_offset = 2.0

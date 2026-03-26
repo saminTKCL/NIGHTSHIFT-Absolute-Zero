@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NIGHTSHIFT: Absolute Zero</title>
+    <meta name="description"
+        content="A 2.5D cinematic puzzle-platformer in a brutalist sub-zero facility on a dead planet.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #08080c;
+            font-family: 'Courier New', monospace;
+        }
+
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            outline: none;
+        }
+
+        #status {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            background: #08080c;
+            transition: opacity 0.8s ease;
+        }
+
+        #status.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #status-title {
+            font-size: 2.5rem;
+            letter-spacing: 0.6em;
+            color: #e8e8e8;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(255, 40, 40, 0.3);
+        }
+
+        #status-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: #ff2828;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        #status-progress-bar {
+            width: 300px;
+            height: 2px;
+            background: #1a1a1f;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #status-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff2828, #ff4040);
+            box-shadow: 0 0 10px rgba(255, 40, 40, 0.5);
+            transition: width 0.3s ease;
+        }
+
+        #status-notice {
+            margin-top: 1.5rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        #status-notice a {
+            color: #666;
+        }
+    </style>
+    <link id='-gd-engine-icon' rel='icon' type='image/png' href='index.icon.png' />
+<link rel='apple-touch-icon' href='index.apple-touch-icon.png'/>
+
+</head>
+
+<body>
+    <canvas id="canvas">
+        Your browser does not support the canvas element.
+    </canvas>
+
+    <div id="status">
+        <div id="status-title">NIGHTSHIFT</div>
+        <div id="status-subtitle">Absolute Zero</div>
+        <div id="status-progress-bar">
+            <div id="status-progress-fill"></div>
+        </div>
+        <div id="status-notice">
+            <span id="status-notice-text">Loading...</span>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+    <script>
+        const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":80528,"index.wasm":35649444},"focusCanvas":true,"gdextensionLibs":[]};
+        const engine = new Engine(GODOT_CONFIG);
+
+        const statusOverlay = document.getElementById('status');
+        const progressFill = document.getElementById('status-progress-fill');
+        const noticeText = document.getElementById('status-notice-text');
+
+        function setStatusMode(mode) {
+            if (mode === 'hidden') {
+                statusOverlay.classList.add('hidden');
+            }
+        }
+
+        function setProgress(p) {
+            progressFill.style.width = (p * 100) + '%';
+        }
+
+        function setNotice(text) {
+            noticeText.textContent = text;
+        }
+
+        engine.startGame({
+            'canvas': document.getElementById('canvas'),
+            'onProgress': function (current, total) {
+                if (total > 0) {
+                    setProgress(current / total);
+                    setNotice('Initializing facility systems... ' + Math.round(current / total * 100) + '%');
+                }
+            },
+        }).then(function () {
+            setStatusMode('hidden');
+        }).catch(function (err) {
+            setNotice('ERROR: Facility systems offline. ' + err.message);
+            console.error(err);
+        });
+    </script>
+</body>
+
+</html>

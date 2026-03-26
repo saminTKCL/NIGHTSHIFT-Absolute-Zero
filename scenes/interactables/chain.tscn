@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://chain001"]
+
+[ext_resource type="Script" path="res://scenes/interactables/chain.gd" id="1_chain"]
+
+[node name="Chain" type="Node3D"]
+script = ExtResource("1_chain")
+segment_count = 6
+segment_length = 0.8
+segment_mass = 2.0
+swing_force = 8.0

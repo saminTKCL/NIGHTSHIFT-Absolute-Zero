@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://pushcrate001"]
+
+[ext_resource type="Script" path="res://scenes/interactables/push_crate.gd" id="1_crate"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_001"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_001"]
+size = Vector3(1.2, 1.2, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_001"]
+albedo_color = Color(0.15, 0.14, 0.13, 1)
+roughness = 0.95
+metallic = 0.1
+
+[node name="PushCrate" type="RigidBody3D"]
+mass = 50.0
+collision_layer = 4
+collision_mask = 1
+linear_damp = 3.0
+angular_damp = 10.0
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+axis_lock_linear_z = true
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_crate")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_001")
+
+[node name="CrateMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_001")
+surface_material_override/0 = SubResource("StandardMaterial3D_001")
