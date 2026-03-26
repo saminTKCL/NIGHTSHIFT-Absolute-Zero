@@ -1,5 +1,7 @@
 shader_type canvas_item;
 
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
 uniform float vignette_intensity : hint_range(0.0, 2.0) = 0.4;
 uniform float vignette_opacity : hint_range(0.0, 1.0) = 0.6;
 uniform float vignette_softness : hint_range(0.0, 1.0) = 0.5;
@@ -8,7 +10,7 @@ uniform float danger_intensity : hint_range(0.0, 1.0) = 0.0;
 uniform vec4 danger_color : source_color = vec4(0.5, 0.0, 0.0, 1.0);
 
 void fragment() {
-	vec4 scene_color = texture(TEXTURE, UV);
+	vec4 scene_color = texture(SCREEN_TEXTURE, SCREEN_UV);
 	vec2 uv = UV - 0.5;
 	float dist = length(uv * vec2(1.0, 0.8));
 	float vignette = smoothstep(vignette_softness, vignette_softness + vignette_intensity, dist);
